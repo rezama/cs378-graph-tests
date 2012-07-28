@@ -37,7 +37,7 @@ To test the program:
 #include "cppunit/TextTestRunner.h"          // TestRunner
 
 #include "Graph.h"
-#include "boost/graph/topological_sort.hpp"// topological_sort
+//#include "boost/graph/topological_sort.hpp"// topological_sort
 
 // ---------
 // TestGraph
@@ -677,10 +677,11 @@ struct TestGraph : CppUnit::TestFixture {
 
     void test_topological_sort () {
         std::ostringstream out;
-	try {
-        topological_sort(g, std::ostream_iterator<vertex_descriptor>(out, " "));
-        CPPUNIT_ASSERT(false);
-	} catch(...){}}
+	    try {
+            topological_sort(g, std::ostream_iterator<vertex_descriptor>(out, " "));
+            CPPUNIT_ASSERT(false);} 
+        catch(boost::not_a_dag& e){
+            CPPUNIT_ASSERT(std::string(e.what()) == "The graph must be a DAG.");}}
     
     void test_topological_sort_acyclic () {
         std::ostringstream out;
@@ -690,9 +691,10 @@ struct TestGraph : CppUnit::TestFixture {
     void test_topological_sort_connected () {
         std::ostringstream out;
         try {
-	topological_sort(g_connected, std::ostream_iterator<vertex_descriptor>(out, " "));
-	CPPUNIT_ASSERT(false);
-        } catch(...){}}
+	        topological_sort(g_connected, std::ostream_iterator<vertex_descriptor>(out, " "));
+	        CPPUNIT_ASSERT(false);} 
+        catch(boost::not_a_dag& e){
+            CPPUNIT_ASSERT(std::string(e.what()) == "The graph must be a DAG.");}}
 
     // -----
     // suite
@@ -766,7 +768,7 @@ int main () {
 
     CppUnit::TextTestRunner tr;
     tr.addTest(TestGraph< adjacency_list<setS, vecS, directedS> >::suite());
-    tr.addTest(TestGraph<Graph>::suite()); // uncomment
+    tr.addTest(TestGraph<Graph>::suite()); 
     tr.run();
 
     cout << "Done." << endl;
