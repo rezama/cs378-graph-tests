@@ -1,0 +1,28 @@
+==9839== Memcheck, a memory error detector
+==9839== Copyright (C) 2002-2011, and GNU GPL'd, by Julian Seward et al.
+==9839== Using Valgrind-3.7.0 and LibVEX; rerun with -h for copyright info
+==9839== Command: ./TestGraph.c++.app
+==9839== 
+TestGraph.c++
+....................................................
+
+
+OK (52 tests)
+
+
+Done.
+==9839== 
+==9839== HEAP SUMMARY:
+==9839==     in use at exit: 122,880 bytes in 6 blocks
+==9839==   total heap usage: 3,133 allocs, 3,127 frees, 385,406 bytes allocated
+==9839== 
+==9839== LEAK SUMMARY:
+==9839==    definitely lost: 0 bytes in 0 blocks
+==9839==    indirectly lost: 0 bytes in 0 blocks
+==9839==      possibly lost: 0 bytes in 0 blocks
+==9839==    still reachable: 122,880 bytes in 6 blocks
+==9839==         suppressed: 0 bytes in 0 blocks
+==9839== Rerun with --leak-check=full to see details of leaked memory
+==9839== 
+==9839== For counts of detected and suppressed errors, rerun with: -v
+==9839== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 2 from 2)
