@@ -197,10 +197,26 @@ struct TestGraph : CppUnit::TestFixture {
 
 	// ---------
 	// test_edge
-	void test_edge () {
+	void test_edge0 () {
 		std::pair<edge_descriptor, bool> p = edge(vdA, vdB, g);
+		
 		CPPUNIT_ASSERT(p.first  == edAB);
-		CPPUNIT_ASSERT(p.second == true);}
+		CPPUNIT_ASSERT(p.second == true);
+	}
+	
+	void test_edge1 () {
+		std::pair<edge_descriptor, bool> p = edge(vdG, vdH, g);
+		
+		CPPUNIT_ASSERT(p.first  == edGH);
+		CPPUNIT_ASSERT(p.second == true);
+	}
+	
+	void test_edge2 () {
+		std::pair<edge_descriptor, bool> p = edge(vdA, vdH, g);
+		
+		//CPPUNIT_ASSERT(p.first  == edAB);
+		CPPUNIT_ASSERT(p.second == false);
+	}
 
 	// ----------
 	// test_edges
@@ -219,9 +235,23 @@ struct TestGraph : CppUnit::TestFixture {
 
 	// --------------
 	// test_num_edges
-	void test_num_edges () {
+	void test_num_edges0 () {
 		edges_size_type es = num_edges(g);
-		CPPUNIT_ASSERT(es == 11);}
+		CPPUNIT_ASSERT(es == 11);
+	}
+	
+	void test_num_edges1 () {
+		add_edge(vdH, vdG, g);
+		edges_size_type es = num_edges(g);
+		CPPUNIT_ASSERT(es == 12);
+	}
+	
+	void test_num_edges2 () {
+		add_edge(vdH, vdG, g);
+		add_edge(vdH, vdG, g);
+		edges_size_type es = num_edges(g);
+		CPPUNIT_ASSERT(es == 12);
+	}
 
 	// -----------------
 	// test_num_vertices
@@ -277,21 +307,32 @@ struct TestGraph : CppUnit::TestFixture {
 	// -----
 	// suite
 	CPPUNIT_TEST_SUITE(TestGraph);
+	
 	CPPUNIT_TEST(test_add_edge0);
 	CPPUNIT_TEST(test_add_edge1);
 	CPPUNIT_TEST(test_add_edge2);
 	CPPUNIT_TEST(test_adjacent_vertices0);
 	CPPUNIT_TEST(test_adjacent_vertices1);
 	CPPUNIT_TEST(test_adjacent_vertices2);
-/*	CPPUNIT_TEST(test_edge);
+	
+	CPPUNIT_TEST(test_edge0);
+	CPPUNIT_TEST(test_edge1);
+	CPPUNIT_TEST(test_edge2);
 	CPPUNIT_TEST(test_edges);
-	CPPUNIT_TEST(test_num_edges);
+	CPPUNIT_TEST(test_num_edges0);
+	CPPUNIT_TEST(test_num_edges1);
+	CPPUNIT_TEST(test_num_edges2);
 	CPPUNIT_TEST(test_num_vertices);
 	CPPUNIT_TEST(test_source);
 	CPPUNIT_TEST(test_target);
 	CPPUNIT_TEST(test_vertex);
 	CPPUNIT_TEST(test_vertices);
-*/	CPPUNIT_TEST_SUITE_END();};
+	
+//	CPPUNIT_TEST(test_has_cycle);
+//	CPPUNIT_TEST(test_topological_sort);
+	
+	CPPUNIT_TEST_SUITE_END();
+};
 
 // ----
 // main
@@ -303,8 +344,8 @@ int main () {
 	cout << "TestGraph.c++" << endl;
 
 	CppUnit::TextTestRunner tr;
-	tr.addTest(TestGraph< adjacency_list<setS, vecS, directedS> >::suite());
-//	tr.addTest(TestGraph<Graph>::suite());
+//	tr.addTest(TestGraph< adjacency_list<setS, vecS, directedS> >::suite());
+	tr.addTest(TestGraph<Graph>::suite());
 	tr.run();
 
 	cout << "Done." << endl;
